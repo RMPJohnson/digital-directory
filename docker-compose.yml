@@ -1,0 +1,45 @@
+version: '3.7'
+x-db-config:
+  &db-config
+  MYSQL_USER: forge
+  MYSQL_PASSWORD: pass1234
+  MYSQL_DATABASE: digital
+services:
+  php-apache-environment:
+    container_name: laravel_app
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    depends_on:
+      - database
+    image: php:8.0-apache
+    environment:
+        VIRTUAL_HOST: my-cool-app.localhost
+    volumes:
+      - ./src:/var/www/html
+      - ./docker/init.sh:/app/init/init.sh
+    ports:
+      - 8000:80
+    # command: bash -c "/app/init/init.sh"
+  database:
+    container_name: database
+    image: mysql
+    restart: always
+    environment:
+      <<: *db-config
+      MYSQL_ROOT_PASSWORD: pass1234
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - "9907:3306"
+  phpmyadmin:
+    container_name: laravel-phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    links:
+      - database
+    environment:
+      PMA_HOST: database
+      PMA_PORT: 3306
+    ports:
+      - '8081:80'
+    volumes:
+      - /sessions

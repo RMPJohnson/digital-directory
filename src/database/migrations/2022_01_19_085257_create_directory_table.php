@@ -31,6 +31,7 @@ class CreateDirectoryTable extends Migration
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

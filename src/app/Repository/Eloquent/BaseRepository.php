@@ -5,6 +5,7 @@ namespace App\Repository\Eloquent;
 use App\Repository\EloquentRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use PhpParser\Node\Expr\Array_;
 
 class BaseRepository implements EloquentRepositoryInterface
 {
@@ -26,11 +27,16 @@ class BaseRepository implements EloquentRepositoryInterface
     /**
      * @param array $columns
      * @param array $relations
-     * @return Collection
+     * @return array
      */
-    public function all(array $columns = ['*'], array $relations = []): Collection
+    public function all(array $columns = ['*'], array $relations = [],$pagination=10)
     {
-        return $this->model->with($relations)->get($columns);
+        return $this
+                ->model
+                ->select($columns)
+                ->with($relations)
+                ->orderBy('updated_at','DESC')
+                ->paginate($perPage =$pagination,$columns = ['*']);
     }
 
     /**
@@ -129,7 +135,17 @@ class BaseRepository implements EloquentRepositoryInterface
      */
     public function status(int $modelId): bool
     {
-        return $this->findById($modelId)->status();
+        $model =  $this->model->find($modelId);
+        if($model) {
+            if ($model->status == 1)
+                $model->status = 0;
+            else
+                $model->status = 1;
+            $model->save();
+            return true;
+        }
+        else
+            return false;
     }
 
     /**

@@ -5,12 +5,17 @@
     <div>
         <h1 class="logo-name">{{ env('APP_NAME') }}</h1>
     </div>
+
     <h3>Welcome to {{ env('APP_NAME') }}</h3>
     <form method="POST" class="m-t" role="form" action="{{ route('login') }}">
         @csrf
+        @if (session('error'))
+            <div class="alert alert-danger">
+                <i class="fa fa-warning"></i> {{ session('error') }}
+            </div>
+        @endif
         <div class="row mb-3">
             <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('E-Mail Address') }}</label>
-
             <div class="col-md-6">
                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 

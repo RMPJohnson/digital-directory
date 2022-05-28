@@ -189,4 +189,24 @@ class UserController extends Controller
         Auth::logout();
         return Redirect('/administrator/login');
     }
+    /**
+     * Status the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function status(User $user)
+    {
+       if($user->status==1) {
+           $user->status=0;
+       }
+       else {
+           $user->status=1;
+       }
+       $user->save();
+
+        return redirect()->route('users.index')
+            ->with('success','Status is changed successfully');
+    }
+
 }

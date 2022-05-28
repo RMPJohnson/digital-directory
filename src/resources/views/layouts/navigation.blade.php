@@ -37,11 +37,11 @@
                 </li>
                 @endrole
 
-            <li {{ (request()->is('administrator/directory*')) ? 'class=active' : '' }}>
+            <li {{ ( (request()->is('administrator/category*')) OR  request()->is('administrator/directory*')) ? 'class=active' : '' }}>
                 <a href="#" aria-expanded="false"><i class="fa fa-edit"></i> <span class="nav-label">Directory</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse" aria-expanded="false">
-                    <li><a href="form_basic.html"><i class="fa fa-table"></i> Category</a></li>
-                    <li><a href="form_advanced.html"><i class="fa fa-user-secret"></i> Profiles</a></li>
+                    <li><a href="{{ route('category.index') }}"><i class="fa fa-table"></i> Category</a></li>
+                    <li><a href="{{--{{ route('directory.index') }}--}}><i class="fa fa-user-secret"></i> Profiles</a></li>
                 </ul>
             </li>
         </ul>

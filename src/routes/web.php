@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\BusinessController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -58,6 +60,19 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
                 Route::patch('/{category}/update', [CategoryController::class, 'update'])->name('category.update');
                 Route::delete('/{category}/delete', [CategoryController::class, 'destroy'])->name('category.destroy');
                 Route::get('/{category}/status', [CategoryController::class, 'status'])->name('category.status');
+            });
+        /**
+         * Categories Routes
+         */
+            Route::group(['prefix' => 'business'], function($prefix) {
+                Route::get('/', [BusinessController::class, 'index'])->name('business.index');
+                Route::get('/create', [BusinessController::class, 'create'])->name('business.create');
+                Route::post('/create', [BusinessController::class, 'store'])->name('business.store');
+                Route::get('/{business}/show', [BusinessController::class, 'show'])->name('business.show');
+                Route::get('/{business}/edit', [BusinessController::class, 'edit'])->name('business.edit');
+                Route::patch('/{business}/update', [BusinessController::class, 'update'])->name('business.update');
+                Route::delete('/{business}/delete', [BusinessController::class, 'destroy'])->name('business.destroy');
+                Route::get('/{business}/status', [BusinessController::class, 'status'])->name('business.status');
             });
         });
     });

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCatagoryRequest;
+use App\Http\Requests\UpdateCatagoryRequest;
 use App\Repository\CategoryRepositoryInterface as CategoryRepo;
-use Illuminate\Http\Request;
+
 
 class CategoryController extends Controller
 {
@@ -20,6 +22,7 @@ class CategoryController extends Controller
 
     public function __construct(CategoryRepo $categoryRepo)
     {
+        $this->middleware('auth');
         $this->categoryRepo = $categoryRepo;
     }
 
@@ -45,21 +48,14 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCatagoryRequest $request)
     {
-        //
+        $this->categoryRepo->create($request->except('_token'));
+        return redirect()->route('category.index')
+            ->withSuccess(__('Category added successfully.'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -69,7 +65,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('categories.edit',[
+            'category' => $this->categoryRepo->findById($id),
+        ]);
     }
 
     /**
@@ -79,13 +77,15 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCatagoryRequest $request, $id)
     {
-        //
+        $this->categoryRepo->update($id,$request->except('_token'));
+        return redirect()->route('category.index')
+            ->withSuccess(__('Category updated successfully.'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update status the specified resource in storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -108,6 +108,8 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->categoryRepo->deleteById($id);
+        return redirect()->route('category.index')
+            ->withSuccess(__('Successfully deleted this category'));
     }
 }

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'User Management')
+@section('title', 'Categories Management')
 @section('content')
     <div class="col-lg-12">
         <div class="ibox">
@@ -51,7 +51,7 @@
                                     @endif
                                 </div>
                                     <div class="pull-right">
-                                    {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $category->id],'style'=>'display:inline']) !!}
+                                    {!! Form::open(['method' => 'DELETE','route' => ['category.destroy', $category->id],'style'=>'display:inline']) !!}
                                     {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-xs']) !!}
                                     {!! Form::close() !!}
                                     </div>

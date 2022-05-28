@@ -20,11 +20,11 @@ class PermissionSeeder extends Seeder
             'category-delete',
             'category-approved',
 
-            'directory-list',
-            'directory-create',
-            'directory-edit',
-            'directory-delete',
-            'directory-approved'
+            'business-list',
+            'business-create',
+            'business-edit',
+            'business-delete',
+            'business-approved'
         ];
 
         foreach ($permissions as $permission) {

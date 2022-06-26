@@ -20,7 +20,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
         return view('directory');
     });
     Route::prefix('administrator')->group(function () {
-
             Auth::routes();
             Route::get('/', [UserController::class, 'dashboard'])->name('dashboard');
             Route::get('/logout', [UserController::class, 'logout'])->name('logout');
@@ -75,6 +74,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
                 Route::get('/{business}/status', [BusinessController::class, 'status'])->name('business.status');
             });
         });
+
+
     });
 
 

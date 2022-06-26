@@ -30,7 +30,7 @@ class StoreUserRequest extends FormRequest
             'city' => 'required',
             'state' => 'required',
             'phone_no' => 'required',
-            'email' => 'required|email:rfc,dns|unique:users,email',
+            'email' => 'required|email|unique:users,email',
             'name' => 'required|unique:users,name',
             'password' => 'required|same:confirm-password',
             'picture' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
